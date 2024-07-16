@@ -1,5 +1,4 @@
 //PID相关函数定义文件
-
 #include "main.h"
 #include "PID.h"
 //限幅用函数
@@ -85,6 +84,14 @@ void PID_clear(pid_type_def *pid)
     pid->out = pid->pout = pid->iout = pid->dout = 0.0f;
     //目标值和当前值清零
     pid->now = pid->set = 0.0f;
+}
+
+//串级PID输出
+float Cascade_PID_calc(Cascade_PID *pid,float outer_set,float outer_now,float inner_now)
+{
+  PID_calc(&pid->outer,outer_now,outer_set);
+  PID_calc(&pid->inner,inner_now,pid->outer.out);
+  pid->out = pid->inner.out;
 }
 
 

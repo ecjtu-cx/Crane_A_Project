@@ -21,10 +21,9 @@
 #define CAN_RECEIVE_H
 
 #include "struct_typedef.h"
-#include "centre.h"
 
 #define CHASSIS_CAN hcan1
-#define GIMBAL_CAN hcan2
+//#define GIMBAL_CAN hcan2
 
 /* CAN send and receive ID */
 typedef enum

@@ -23,7 +23,7 @@
 
 
 extern CAN_HandleTypeDef hcan1;
-extern CAN_HandleTypeDef hcan2;
+//extern CAN_HandleTypeDef hcan2;
 //motor data read
 #define get_motor_measure(ptr, data)                                    \
     {                                                                   \
@@ -44,7 +44,6 @@ static motor_measure_t motor_chassis[7];
 //static uint8_t              gimbal_can_send_data[8];
 static CAN_TxHeaderTypeDef  chassis_tx_message;
 static uint8_t              chassis_can_send_data[8];
-extern MOTOR motor[3];
 
 /**
   * @brief          hal CAN fifo call back, receive motor data
@@ -76,7 +75,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
             static uint8_t i = 0;
             //get motor id
             i = rx_header.StdId - CAN_3508_M1_ID;
-            get_motor_measure(&motor[i], rx_data);
+            get_motor_measure(&motor_chassis[i], rx_data);
             break;
         }
 
@@ -248,29 +247,4 @@ const motor_measure_t *get_trigger_motor_measure_point(void)
 const motor_measure_t *get_chassis_motor_measure_point(uint8_t i)
 {
     return &motor_chassis[(i & 0x03)];
-}
-//ÂË²¨³õÊ¼»¯
-void can_filter_init(void)
-{
-
-    CAN_FilterTypeDef can_filter_st;
-    can_filter_st.FilterActivation = ENABLE;
-    can_filter_st.FilterMode = CAN_FILTERMODE_IDMASK;
-    can_filter_st.FilterScale = CAN_FILTERSCALE_32BIT;
-    can_filter_st.FilterIdHigh = 0x0000;
-    can_filter_st.FilterIdLow = 0x0000;
-    can_filter_st.FilterMaskIdHigh = 0x0000;
-    can_filter_st.FilterMaskIdLow = 0x0000;
-    can_filter_st.FilterBank = 0;
-    can_filter_st.FilterFIFOAssignment = CAN_RX_FIFO0;
-    HAL_CAN_ConfigFilter(&hcan1, &can_filter_st);
-    HAL_CAN_Start(&hcan1);
-    HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
-
-
-    can_filter_st.SlaveStartFilterBank = 14;
-    can_filter_st.FilterBank = 14;
-    HAL_CAN_ConfigFilter(&hcan2, &can_filter_st);
-    HAL_CAN_Start(&hcan2);
-    HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO0_MSG_PENDING);
 }

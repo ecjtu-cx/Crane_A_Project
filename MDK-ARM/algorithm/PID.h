@@ -28,6 +28,14 @@ typedef struct{
   float error[3];  
 } pid_type_def;
 
+
+typedef struct
+{
+	pid_type_def inner;
+	pid_type_def outer;
+	float out;
+}Cascade_PID;
+
 //前置限幅函数
 extern float limit(int now, int setmax);
 
@@ -39,5 +47,8 @@ extern float PID_calc(pid_type_def *pid, float now, float set);
 
 //清空中间变量函数
 extern void PID_clear(pid_type_def *pid);
+
+//计算串级PID
+extern float Cascade_PID_calc(Cascade_PID *pid,float outer_set,float outer_now,float inner_now);
 
 #endif

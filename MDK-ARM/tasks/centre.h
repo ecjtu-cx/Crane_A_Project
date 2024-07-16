@@ -17,11 +17,15 @@ typedef struct{
 	
 }MOTOR;
 
+static MOTOR motor[3];
+
 //对轮子进行初始化
 extern void cheel_init(void);
 
 //两轮子进行速度控制
 extern void motor_speed_control(int set, int time);
 
+//对云台进行角度控制
+extern void gimbal_angle_control(int angle);
 
 #endif

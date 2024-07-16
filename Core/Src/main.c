@@ -22,6 +22,7 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "Emm_V5.h"
@@ -61,7 +62,8 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+extern MOTOR motor[3];
+extern motor_measure_t motor_chassis[7];
 /* USER CODE END 0 */
 
 /**
@@ -72,50 +74,45 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-	
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-	
+
   /* USER CODE BEGIN Init */
 	
-	//启动CAN通信
-	can_filter_init();
-	HAL_CAN_ActivateNotification(&hcan1,CAN_IT_RX_FIFO0_MSG_PENDING);
-	HAL_CAN_Start(&hcan1);
-	
-	//启动PWM 控制舵机
-	HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1 | TIM_CHANNEL_2);
-	
-	//初始化滤波
-	can_filter_init();
-	
-	//对轮子进行初始化
-	cheel_init();
-
-	
-	
   /* USER CODE END Init */
-	
+
   /* Configure the system clock */
   SystemClock_Config();
-	
+
   /* USER CODE BEGIN SysInit */
-	
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_CAN1_Init();
   MX_TIM1_Init();
-  MX_UART4_Init();
-  MX_UART5_Init();
   MX_UART7_Init();
+  MX_UART8_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-	motor_speed_control(500, 10);
+	
+	//启动CAN通信
+	can_filter_init();
+	
+	//启动PWM 控制舵机
+	HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1 | TIM_CHANNEL_2);
+	
+	//初始化轮子
+	cheel_init();
+	
+	
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -125,6 +122,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+		
   }
   /* USER CODE END 3 */
 }
@@ -150,8 +148,8 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 25;
-  RCC_OscInitStruct.PLL.PLLN = 336;
+  RCC_OscInitStruct.PLL.PLLM = 6;
+  RCC_OscInitStruct.PLL.PLLN = 168;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 4;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -178,7 +176,7 @@ void SystemClock_Config(void)
 int fputc(int ch, FILE* f)
 {
     uint8_t temp[1] = {ch};
-    HAL_UART_Transmit(&huart4,temp,1,2);
+    HAL_UART_Transmit(&huart3,temp,1,2);
     return ch;
 }
 /* USER CODE END 4 */

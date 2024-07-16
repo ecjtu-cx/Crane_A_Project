@@ -18,7 +18,7 @@
           <Vendor>STMicroelectronics</Vendor>
           <PackID>Keil.STM32F4xx_DFP.2.8.0</PackID>
           <PackURL>http://www.keil.com/pack</PackURL>
-          <Cpu>IRAM(0x20000000-0x2002FFFF) IRAM2(0x10000000-0x1000FFFF) IROM(0x8000000-0x81FFFFF) CLOCK(25000000) FPU2 CPUTYPE("Cortex-M4")</Cpu>
+          <Cpu>IRAM(0x20000000-0x2002FFFF) IRAM2(0x10000000-0x1000FFFF) IROM(0x8000000-0x81FFFFF)  CLOCK(25000000) FPU2 CPUTYPE("Cortex-M4")</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
           <FlashDriverDll></FlashDriverDll>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F427xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;.\Board;.\algorithm;.\tasks</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;./Board;.\algorithm;.\tasks</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -599,14 +599,14 @@
           <GroupName>tasks</GroupName>
           <Files>
             <File>
-              <FileName>centre.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\tasks\centre.h</FilePath>
-            </File>
-            <File>
               <FileName>centre.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\tasks\centre.c</FilePath>
+            </File>
+            <File>
+              <FileName>centre.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\tasks\centre.h</FilePath>
             </File>
           </Files>
         </Group>
